@@ -1,5 +1,6 @@
 package com.alibaba.easyexcel.test;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.easyexcel.test.listen.AfterWriteHandlerImpl;
 import com.alibaba.easyexcel.test.model.WriteModel;
 import com.alibaba.easyexcel.test.util.FileUtil;
@@ -155,7 +156,7 @@ public class WriteTest {
 
     @Test
     public void writeV2003() throws IOException {
-        OutputStream out = new FileOutputStream("/Users/jipengfei/2003.xls");
+        OutputStream out = new FileOutputStream("c:/excel/2003write.xls");
         ExcelWriter writer = EasyExcelFactory.getWriter(out, ExcelTypeEnum.XLS,true);
         //写第一个sheet, sheet1  数据全是List<String> 无模型映射关系
         Sheet sheet1 = new Sheet(1, 3);
@@ -191,4 +192,20 @@ public class WriteTest {
         writer.finish();
         out.close();
     }
+
+    @Test
+    public void tt(){
+
+        long l = DateUtil.betweenMs(DateUtil.parse("2018-11-30 00:24:01"), DateUtil.parse("2018-11-30 01:29:57"));
+        System.out.println(l);
+    }
+
+    @Test
+    public void t(){
+
+        String i = "[{startTime=2018-11-30 00:00:00}, {endTime=2018-11-30 00:55:11}, {startTime=2018-11-30 12:50:53}, {endTime=2018-11-30 14:09:54}, {startTime=2018-11-30 23:36:07}, {endTime=2018-11-30 23:59:57}]";
+
+        String s = i;
+    }
+
 }
