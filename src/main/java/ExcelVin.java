@@ -27,7 +27,7 @@ public class ExcelVin {
 
         List<VinReadModel> vinReadModels = new ArrayList<VinReadModel>();
         //遍历文件夹
-        File file = new File("c:/excel/02-11");
+        File file = new File("c:/excel/10.31");
 
         for (File listFile : file.listFiles()) {
 
@@ -44,7 +44,6 @@ public class ExcelVin {
         }
 
         writeData(vinReadModels);
-
 
     }
 
@@ -86,7 +85,7 @@ public class ExcelVin {
 
             //保存记录的时间
 
-            ChargingTime chargingTime = new ChargingTime();
+            //ChargingTime chargingTime = new ChargingTime();
             //最后一个里程的数作为总里程
             if(i == data.size()-1){
                 //4是里程数,8是停车状态,0是时间,1是服务器接收时间
@@ -94,31 +93,31 @@ public class ExcelVin {
             }
 
             //如果第一条数据就是充电状态
-            if(i == 0){
-                if(str.get(8).equals("停车充电")){
-                    //todo 存点的起点
-                    chargingTime.setStartTime(str.get(0));
-                }
-            }
-            if((str.get(8).equals("未充电状态") && strlast.get(8).equals("停车充电")) || (str.get(8).equals("充电完成") && strlast.get(8).equals("停车充电"))){
-                //todo 保存存电的起点
-                chargingTime.setStartTime(strlast.get(0));
-            }
+//            if(i == 0){
+//                if(str.get(8).equals("停车充电")){
+//                    //todo 存点的起点
+//                    chargingTime.setStartTime(str.get(0));
+//                }
+//            }
+//            if(!str.get(8).equals("停车充电") && strlast.get(8).equals("停车充电")){
+//                //todo 保存存电的起点
+//                chargingTime.setStartTime(strlast.get(0));
+//            }
+//
+//
+//            if(str.get(8).equals("停车充电") && !strlast.get(8).equals("停车充电")){
+//                //todo 结束存电
+//                chargingTime.setEndTime(str.get(0));
+//            }
+//
+//            if(i == data.size()-1){
+//                if(str.get(8).equals("停车充电")){
+//                    //todo 结束充电状态
+//                    chargingTime.setEndTime(str.get(0));
+//                }
+//            }
 
-
-            if((str.get(8).equals("停车充电") && strlast.get(8).equals("未充电状态")) || (str.get(8).equals("停车充电") && strlast.get(8).equals("异常"))){
-                //todo 结束存电
-                chargingTime.setEndTime(str.get(0));
-            }
-
-            if(i == data.size()-1){
-                if(str.get(8).equals("停车充电")){
-                    //todo 结束充电状态
-                    chargingTime.setEndTime(str.get(0));
-                }
-            }
-
-            chargingTimes.add(chargingTime);
+            //chargingTimes.add(chargingTime);
 
         }
 
@@ -176,46 +175,48 @@ public class ExcelVin {
             da.add(date1.get(i).getVin());
             da.add(date1.get(i).getMileage());
             da.add(date1.get(i).getFileTime());
-            System.out.println("开始计算");
-            //计算时长
-            Object o = null;
-            List<ChargingTime> chargingTime = date1.get(i).getChargingTime();
-            try {
-                o = JsonUtilO.filterNone(JSON.toJSONString(chargingTime));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            ChargingTime chargingTime1 = new ChargingTime();
-            Long Ltime = 1L;
-            Long timeZone2 = 1L;
-
-            if(o != null){
-                System.out.println(o.toString());
-
-                List<Map<String,Object>> list = (List<Map<String, Object>>) o;
-
-                if(list != null){
-                    for (int i1 = 0; i1 < list.size() ; i1 ++) {
-
-                        if(i1%2 == 1){
-                            chargingTime1.setEndTime(list.get(i1).values().toString());
-                            timeZone2 = getTimeZone2(chargingTime1);
-                            Ltime = timeZone2 + Ltime;
-                        }else{
-                            chargingTime1.setStartTime(list.get(i1).values().toString());
-                        }
-                    }
-                }
-
-
-            }
-
-            //Level.MINUTE表示精确到分
-            String s = DateUtil.formatBetween(Ltime, BetweenFormater.Level.MINUTE);
-            da.add(s);
-
-            da.add(o);
+//            System.out.println("开始计算");
+//            //计算时长
+//            Object o = null;
+//            List<ChargingTime> chargingTime = date1.get(i).getChargingTime();
+//            try {
+//                o = JsonUtilO.filterNone(JSON.toJSONString(chargingTime));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            ChargingTime chargingTime1 = new ChargingTime();
+//            Long Ltime = 1L;
+//            Long timeZone2 = 1L;
+//
+//            if(o != null){
+//                System.out.println(o.toString());
+//
+//                List<Map<String,Object>> list = (List<Map<String, Object>>) o;
+//
+//                if(list != null){
+//                    for (int i1 = 0; i1 < list.size() ; i1 ++) {
+//
+//                        if(i1%2 == 1){
+//                            chargingTime1.setEndTime(list.get(i1).values().toString());
+//                            timeZone2 = getTimeZone2(chargingTime1);
+//                            Ltime = timeZone2 + Ltime;
+//                        }else{
+//                            chargingTime1.setStartTime(list.get(i1).values().toString());
+//                        }
+//                    }
+//                }
+//
+//
+//            }
+//
+//            //Level.MINUTE表示精确到分
+//            String s = DateUtil.formatBetween(Ltime, BetweenFormater.Level.MINUTE);
+//
+//            //向表中添加列
+//
+//            da.add(s);
+//            da.add(o);
             object.add(da);
 
         }
